@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Book } from '../types/Book';
 import './Booklist.css';
 
-function BookList() {
+function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   const [books, setBooks] = useState<Book[]>([]);
   const [pageSize, setPageSize] = useState<number>(5);
   const [pageNum, setPageNum] = useState<number>(1);
@@ -12,8 +12,12 @@ function BookList() {
 
   useEffect(() => {
     const fetchBooks = async () => {
+      const categoryParams = selectedCategories
+        .map((c) => `bookTypes=${encodeURIComponent(c)}`)
+        .join('&');
+
       const response = await fetch(
-        `https://localhost:5000/api/Book?cardsPerPage=${pageSize}&pageNum=${pageNum}&sortByName=${sortByName}`
+        `https://localhost:5000/api/Book?cardsPerPage=${pageSize}&pageNum=${pageNum}&sortByName=${sortByName}${selectedCategories.length ? `&${categoryParams}` : ''}`
       );
       const data = await response.json();
       setBooks(data.books);
@@ -25,7 +29,7 @@ function BookList() {
     };
 
     fetchBooks();
-  }, [pageSize, pageNum, numBooks, sortByName]);
+  }, [pageSize, pageNum, numBooks, sortByName, selectedCategories]);
 
   return (
     <>
