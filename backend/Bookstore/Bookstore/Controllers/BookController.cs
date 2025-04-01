@@ -15,9 +15,14 @@ namespace Bookstore.Controllers
         }
 
         [HttpGet(Name = "GetBooks")]
-        public IActionResult GetBooks(int cardsPerPage = 5, int pageNum = 1, bool sortByName = false)
+        public IActionResult GetBooks(int cardsPerPage = 5, int pageNum = 1, bool sortByName = false,[FromQuery] List<string>? bookTypes = null)
         {
             var query = _context.Books.AsQueryable();
+
+            if (bookTypes != null && bookTypes.Any())
+            {
+                query = query.Where(b => bookTypes.Contains(b.Category));
+            }
             
             if (sortByName)
             {
@@ -37,6 +42,17 @@ namespace Bookstore.Controllers
             };
             
             return Ok(booksData);
+        }
+
+        [HttpGet("GetBookCategories")]
+        public IActionResult GetProjectsTypes()
+        {
+            var projectTypes = _context.Books
+                .Select(x => x.Category)
+                .Distinct()
+                .ToList();
+            
+            return Ok(projectTypes);
         }
     }
 }
