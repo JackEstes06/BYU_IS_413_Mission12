@@ -27,6 +27,8 @@ function AddToCartPopup({
     onClose(); // Close modal after adding to cart
   };
 
+  console.log(`Cart popup book is ${bookId}: ${title}`);
+
   return (
     <div
       className="position-fixed top-0 start-0 w-100 h-100 bg-secondary bg-opacity-25 d-flex justify-content-center align-items-center"

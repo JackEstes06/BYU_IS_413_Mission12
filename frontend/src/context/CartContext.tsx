@@ -4,7 +4,7 @@ import { CartItem } from '../types/CartItem';
 interface CartContextType {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
-  removeFromCart: (projectId: number) => void;
+  removeFromCart: (bookId: number) => void;
   clearCart: () => void;
 }
 
@@ -16,14 +16,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const addToCart = (item: CartItem) => {
     setCart((prevCart) => {
       // Does the item exist in the cart already
-      const existingItem = prevCart.find(
-        (cI) => cI.projectId === item.projectId
-      );
+      const existingItem = prevCart.find((cI) => cI.bookId === item.bookId);
 
       // If so, update the price, otherwise do nothing
       const updatedCart = prevCart.map((c) =>
-        c.projectId === item.projectId
-          ? { ...c, donationAmount: c.donationAmount + item.donationAmount }
+        c.bookId === item.bookId
+          ? { ...c, donationAmount: c.price + item.price }
           : c
       );
 
@@ -34,8 +32,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const removeFromCart = (projectId: number) => {
-    setCart((prevCart) => prevCart.filter((c) => c.projectId !== projectId));
+  const removeFromCart = (bookId: number) => {
+    setCart((prevCart) => prevCart.filter((c) => c.bookId !== bookId));
   };
 
   const clearCart = () => {

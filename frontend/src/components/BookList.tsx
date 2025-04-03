@@ -80,7 +80,12 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
                   <br />
                   <button
                     className="btn btn-success"
-                    onClick={() => setSelectedBook(b)}
+                    onClick={() => {
+                      setSelectedBook(b);
+                      console.log(
+                        `Selected book set to ${b.bookId}: ${b.title}`
+                      );
+                    }}
                   >
                     Add to Cart
                   </button>
