@@ -28,40 +28,24 @@ function AddToCartPopup({
   };
 
   return (
-    <div style={styles.overlay}>
-      <div style={styles.modal}>
+    <div
+      className="position-fixed top-0 start-0 w-100 h-100 bg-secondary bg-opacity-25 d-flex justify-content-center align-items-center"
+      style={{ zIndex: 1000 }}
+    >
+      <div className="bg-white p-4 rounded text-center">
         <h2>Add {title}</h2>
         <div>
-          ${price}
-          <button onClick={handleAddToCart}>Add to Cart</button>
+          <p>${price}</p>
+          <button className="btn btn-primary" onClick={handleAddToCart}>
+            Add to Cart
+          </button>
         </div>
-        <button className="btn btn-secondary" onClick={onClose}>
+        <button className="btn btn-secondary mt-3" onClick={onClose}>
           Close
         </button>
       </div>
     </div>
   );
 }
-
-const styles = {
-  overlay: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(211,211,211,0.3)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1000,
-  },
-  modal: {
-    backgroundColor: '#fff',
-    padding: '20px',
-    borderRadius: '10px',
-    textAlign: 'center',
-  },
-};
 
 export default AddToCartPopup;
