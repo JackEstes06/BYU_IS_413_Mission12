@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Book } from '../types/Book';
 import './Booklist.css';
+import AddToCartPopup from './AddToCartPopup';
 
 function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   const [books, setBooks] = useState<Book[]>([]);
@@ -9,6 +10,7 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   const [numBooks, setNumBooks] = useState<number>(0);
   const [numPages, setNumPages] = useState<number>(0);
   const [sortByName, setSortByName] = useState<boolean>(false);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -74,6 +76,22 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
                       <strong>Price:</strong> ${b.price}
                     </li>
                   </ul>
+
+                  <br />
+                  <button
+                    className="btn btn-success"
+                    onClick={() => setSelectedBook(b)}
+                  >
+                    Add to Cart
+                  </button>
+                  {selectedBook && (
+                    <AddToCartPopup
+                      onClose={() => setSelectedBook(null)}
+                      title={selectedBook.title}
+                      bookId={selectedBook.bookId}
+                      price={selectedBook.price}
+                    />
+                  )}
                 </div>
               </div>
             </div>
