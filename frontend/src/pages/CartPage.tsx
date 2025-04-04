@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { CartItem } from '../types/CartItem';
 import { useState } from 'react';
+import './CartPage.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function CartPage() {
   const navigate = useNavigate();
@@ -23,47 +25,111 @@ function CartPage() {
       )}
       <div className="container">
         {cart.length === 0 ? (
-          <p>Your cart is empty</p>
+          <div>
+            <p>Your cart is empty</p>
+            <button
+              className="btn btn-secondary"
+              onClick={() => navigate('/projects')}
+            >
+              Continue Browsing
+            </button>
+          </div>
         ) : (
-          <div className="row">
-            <div className="col-md-8">
-              <ul className="list-group">
-                {cart.map((item: CartItem) => (
-                  <li
-                    key={item.bookId}
-                    className="list-group-item d-flex justify-content-between align-items-center"
-                  >
-                    {item.title}: ${item.price}
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => {
-                        removeFromCart(item.bookId);
-                        setToastMessage('Item removed from cart!');
-                      }}
+          <div>
+            <div className="row">
+              <div className="col-md-8">
+                <ul className="list-group">
+                  {cart.map((item: CartItem) => (
+                    <li
+                      key={item.bookId}
+                      className="list-group-item d-flex justify-content-between align-items-center"
                     >
-                      Remove
-                    </button>
-                  </li>
-                ))}
-              </ul>
+                      {item.title}: ${item.price}
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => {
+                          removeFromCart(item.bookId);
+                          setToastMessage('Item removed from cart!');
+                        }}
+                      >
+                        Remove
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="col-md-4">
+                <h3>
+                  Total: $
+                  {cart
+                    .reduce((total, item) => total + item.price, 0)
+                    .toFixed(2)}
+                </h3>
+                <div className="btn-group-vertical w-100">
+                  <button
+                    className="btn btn-primary mb-2"
+                    onClick={() => navigate('/checkout')}
+                  >
+                    Checkout
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => navigate('/projects')}
+                  >
+                    Continue Browsing
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="col-md-4">
-              <h3>
-                Total: $
-                {cart.reduce((total, item) => total + item.price, 0).toFixed(2)}
-              </h3>
-              <div className="btn-group-vertical w-100">
+
+            <div className="carousel-wrapper border rounded p-3 shadow-sm mt-4 bg-white position-relative">
+              <div
+                id="cart-carousel"
+                className="carousel slide"
+                data-bs-ride="carousel"
+              >
+                <div className="carousel-inner text-center">
+                  {cart.map((item, index) => (
+                    <div
+                      key={item.bookId}
+                      className={`carousel-item ${index === 0 ? 'active' : ''}`}
+                    >
+                      <div
+                        className="d-flex flex-column align-items-center justify-content-center"
+                        style={{ height: '150px' }}
+                      >
+                        <div className="d-flex align-items-center gap-2">
+                          {/* Book icon */}
+                          <i
+                            className="bi bi-book"
+                            style={{ fontSize: '2rem' }}
+                          ></i>
+                          <h5 className="m-0">{item.title}</h5>
+                        </div>
+                        <p className="mt-2">${item.price}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Custom styled controls */}
                 <button
-                  className="btn btn-primary mb-2"
-                  onClick={() => navigate('/checkout')}
+                  className="carousel-control-prev custom-carousel-button"
+                  type="button"
+                  data-bs-target="#cart-carousel"
+                  data-bs-slide="prev"
                 >
-                  Checkout
+                  <span className="custom-arrow">&#8592;</span>
+                  <span className="visually-hidden">Previous</span>
                 </button>
                 <button
-                  className="btn btn-secondary"
-                  onClick={() => navigate('/projects')}
+                  className="carousel-control-next custom-carousel-button"
+                  type="button"
+                  data-bs-target="#cart-carousel"
+                  data-bs-slide="next"
                 >
-                  Continue Browsing
+                  <span className="custom-arrow">&#8594;</span>
+                  <span className="visually-hidden">Next</span>
                 </button>
               </div>
             </div>
@@ -72,56 +138,6 @@ function CartPage() {
       </div>
 
       {/* Bootstrap Carousel as a cool feature */}
-      <div
-        id="cart-carousel"
-        className="carousel slide mt-4"
-        data-bs-ride="carousel"
-      >
-        <div className="carousel-inner">
-          {cart.map((item, index) => (
-            <div
-              key={item.bookId}
-              className={`carousel-item ${index === 0 ? 'active' : ''}`}
-            >
-              <div className="d-block w-100">
-                <img
-                  src={'https://via.placeholder.com/150'}
-                  alt={item.title}
-                  className="d-block w-100"
-                />
-                <div className="carousel-caption d-none d-md-block">
-                  <h5>{item.title}</h5>
-                  <p>${item.price}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <button
-          className="carousel-control-prev"
-          type="button"
-          data-bs-target="#cart-carousel"
-          data-bs-slide="prev"
-        >
-          <span
-            className="carousel-control-prev-icon"
-            aria-hidden="true"
-          ></span>
-          <span className="visually-hidden">Previous</span>
-        </button>
-        <button
-          className="carousel-control-next"
-          type="button"
-          data-bs-target="#cart-carousel"
-          data-bs-slide="next"
-        >
-          <span
-            className="carousel-control-next-icon"
-            aria-hidden="true"
-          ></span>
-          <span className="visually-hidden">Next</span>
-        </button>
-      </div>
     </>
   );
 }
