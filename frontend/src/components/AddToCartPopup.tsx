@@ -5,8 +5,8 @@ import { CartItem } from '../types/CartItem';
 interface AddToCartPopupProps {
   onClose: () => void;
   title: string;
-  bookId: string;
-  price: string;
+  bookId: number;
+  price: number;
 }
 
 function AddToCartPopup({
