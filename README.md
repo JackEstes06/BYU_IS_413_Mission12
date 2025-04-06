@@ -1,6 +1,10 @@
-# For the TAs grading this
+# For the TAs grading this (Mission 12)
 
 Extra bootstrap that I implemented:
 
 - Styling for a modal popup that verifies if a user wants to add to the cart or not
 - Carousel in cart
+
+# For the TAs grading this (Mission13)
+
+Published at:

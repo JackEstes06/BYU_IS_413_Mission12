@@ -1,6 +1,7 @@
 import { Book } from '../types/Book';
 
-const API_URL = 'https://localhost:5000/api/Book';
+const API_URL =
+  'https://bookstore2-estes-mission13-backend-buaca7dycsfhf7e7.centralus-01.azurewebsites.net/api/Book';
 
 interface FetchBooksResponse {
   books: Book[];
